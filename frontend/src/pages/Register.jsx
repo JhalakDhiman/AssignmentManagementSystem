@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
     const [accountType, setAccountType] = useState("Student");
@@ -13,6 +14,8 @@ export default function Register() {
     } = useForm();
 
     const BASE_URL = process.env.REACT_APP_BASE_URL
+
+    const navigate = useNavigate();
 
 
     const onSubmit = async (data) => {
@@ -29,6 +32,7 @@ export default function Register() {
             if (response.data.success) {
                 toast.success("User registered successfully!");
                 console.log("Backend Response:", response.data);
+                navigate('/login');
             } else {
                 toast.error(response.data.message || "Signup failed");
             }
