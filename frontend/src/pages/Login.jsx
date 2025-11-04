@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [accountType, setAccountType] = useState("Student");
@@ -148,12 +148,12 @@ export default function Login() {
         {/* Footer */}
         <p className="text-center text-sm text-richblue-300 mt-6">
           Don’t have an account?{" "}
-          <a
-            href="/register"
+          <Link
+            to="/register"
             className="text-caribbeangreen-100 font-semibold hover:underline"
           >
             Register
-          </a>
+          </Link>
         </p>
       </motion.div>
     </div>

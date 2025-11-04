@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import toast from 'react-hot-toast'
 import axios from 'axios'
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
     const [accountType, setAccountType] = useState("Student");
@@ -176,12 +176,12 @@ export default function Register() {
                 {/* Footer */}
                 <p className="text-center text-sm text-richblue-300 mt-6">
                     Already have an account?{" "}
-                    <a
-                        href="/login"
+                    <Link
+                        to="/login"
                         className="text-caribbeangreen-100 font-semibold hover:underline"
                     >
                         Login
-                    </a>
+                    </Link>
                 </p>
             </motion.div>
         </div>
