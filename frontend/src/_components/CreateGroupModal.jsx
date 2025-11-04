@@ -5,6 +5,8 @@ import { X } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 
 const CreateGroupModal = ({ assignmentId, onClose }) => {
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   const [groupName, setGroupName] = useState("");
   const [eligibleStudents, setEligibleStudents] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
@@ -17,7 +19,7 @@ const CreateGroupModal = ({ assignmentId, onClose }) => {
       try {
         setLoading(true);
         const res = await axios.get(
-          `http://localhost:4000/api/v1/group/getEligibleStudentsForGroup/${assignmentId}`
+          `${BASE_URL}/group/getEligibleStudentsForGroup/${assignmentId}`
         );
 
         const filteredStudents = res.data.eligibleStudents.filter(
@@ -71,7 +73,7 @@ const CreateGroupModal = ({ assignmentId, onClose }) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:4000/api/v1/group/createGroup",
+        `${BASE_URL}/group/createGroup`,
         {
           groupName,
           memberIds: selectedMembers.map((s) => s._id),

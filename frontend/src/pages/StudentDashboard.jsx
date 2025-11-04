@@ -10,11 +10,12 @@ const StudentDashboard = () => {
   const { user } = useContext(AuthContext);
   const studentId = user._id;
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BASE_URL
 
   useEffect(() => {
     const fetchAllCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/v1/course/getAllCourses");
+        const response = await axios.get(`${BASE_URL}/course/getAllCourses`);
 
         if (response.data.success) {
           console.log("Courses fetched:", response.data.courses);
@@ -37,7 +38,7 @@ const StudentDashboard = () => {
   const handleEnroll = async (courseId) => {
     try {
 
-      await axios.post("http://localhost:4000/api/v1/course/enrollStudent", { courseId, studentId });
+      await axios.post(`${BASE_URL}/course/enrollStudent`, { courseId, studentId });
       toast.success("Enrolled successfully!");
       window.location.reload();
     } catch (err) {

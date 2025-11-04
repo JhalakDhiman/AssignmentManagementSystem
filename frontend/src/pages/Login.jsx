@@ -16,15 +16,19 @@ export default function Login() {
 
   const {setUser,setToken} = useContext(AuthContext);
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BASE_URL
 
   const onSubmit = async (data) => {
     try {
       const payload = { ...data, accountType };
 
       console.log("📩 Login Data:", payload);
+      console.log(process.env)
+
+      console.log(`${BASE_URL}/auth/login`)
 
       const response = await axios.post(
-        "http://localhost:4000/api/v1/auth/login",
+        `${BASE_URL}/auth/login`,
         payload
       );
 

@@ -16,6 +16,8 @@ export default function ProfessorDashboard() {
   const [showAssignmentForm, setShowAssignmentForm] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL
+
   // Separate form instance for course form
   const {
     register,
@@ -42,7 +44,7 @@ export default function ProfessorDashboard() {
   const fetchCourses = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/course/getProfessorCourses/${professorId}`
+        `${BASE_URL}/course/getProfessorCourses/${professorId}`
       );
       if (res.data.success) setCourses(res.data.courses);
     } catch (err) {
@@ -67,11 +69,11 @@ export default function ProfessorDashboard() {
       console.log("Submitting course data:", payload);
       const res = editingCourse
         ? await axios.post(
-          `http://localhost:4000/api/v1/course/updateCourse`,
+          `${BASE_URL}/course/updateCourse`,
           payload
         )
         : await axios.post(
-          "http://localhost:4000/api/v1/course/createCourse",
+          `${BASE_URL}/course/createCourse`,
           payload
         );
 
@@ -96,7 +98,7 @@ export default function ProfessorDashboard() {
     try {
       const payload = { ...data, token, courseId: selectedCourseId };
       const res = await axios.post(
-        "http://localhost:4000/api/v1/assignment/addAssignment",
+        "${BASE_URL}/assignment/addAssignment",
         payload
       );
       console.log(res);
@@ -116,7 +118,7 @@ export default function ProfessorDashboard() {
     try {
       setLoadingAssignment(true);
       const res = await axios.get(
-        `http://localhost:4000/api/v1/assignment/getAssignmentsForCourse/${courseId}`,
+        `${BASE_URL}/assignment/getAssignmentsForCourse/${courseId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

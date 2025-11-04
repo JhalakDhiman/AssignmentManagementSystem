@@ -14,6 +14,7 @@ const CourseDetails = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [progress, setProgress] = useState(0);
   const { user, token } = useContext(AuthContext);
+  const BASE_URL = process.env.REACT_APP_BASE_URL
 
   const location = useLocation();
   const courseId = location.pathname.split("/").pop();
@@ -23,7 +24,7 @@ const CourseDetails = () => {
     const fetchCourseDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/v1/course/getCourseDetails/${courseId}`
+          `${BASE_URL}/course/getCourseDetails/${courseId}`
         );
 
         if (response.data.success) {
@@ -52,7 +53,7 @@ const CourseDetails = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          `http://localhost:4000/api/v1/group/checkUserGroupStatus/${assignment._id}`,
+          `${BASE_URL}/group/checkUserGroupStatus/${assignment._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,7 +85,7 @@ const CourseDetails = () => {
       if (!assignment?._id) return;
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/v1/assignment/checkIsAssignmentSubmitted/${assignment._id}`,
+          `${BASE_URL}/assignment/checkIsAssignmentSubmitted/${assignment._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -115,7 +116,7 @@ const CourseDetails = () => {
     if (!assignment?._id) return;
     try {
       const res = await axios.post(
-        `http://localhost:4000/api/v1/assignment/submitAssignment/${assignment._id}`,
+        `${BASE_URL}/assignment/submitAssignment/${assignment._id}`,
         {},
         {
           headers: {

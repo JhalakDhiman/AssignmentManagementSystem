@@ -12,6 +12,8 @@ export default function Register() {
         formState: { errors },
     } = useForm();
 
+    const BASE_URL = process.env.REACT_APP_BASE_URL
+
 
     const onSubmit = async (data) => {
         try {
@@ -20,7 +22,7 @@ export default function Register() {
             console.log("📩 Registration Data:", payload);
 
             const response = await axios.post(
-                "http://localhost:4000/api/v1/auth/signup",
+                `${BASE_URL}/auth/signup`,
                 payload
             );
 
