@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { X } from "lucide-react"; 
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
-const CreateGroupModal = ({ assignmentId, onClose }) => {
+const CreateGroupModal = ({ assignmentId, onClose,setCreated }) => {
 
-  const navigate = useNavigate();
   const BASE_URL = process.env.REACT_APP_BASE_URL
   const [groupName, setGroupName] = useState("");
   const [eligibleStudents, setEligibleStudents] = useState([]);
@@ -87,7 +85,7 @@ const CreateGroupModal = ({ assignmentId, onClose }) => {
       console.log("Group creation response:", res.data);
 
       toast.success("Group created successfully!");
-      navigate(0);
+      setCreated(true)
       onClose();
     } catch (err) {
       console.error(err);

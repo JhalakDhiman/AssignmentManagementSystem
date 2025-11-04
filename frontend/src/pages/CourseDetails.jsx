@@ -18,6 +18,7 @@ const CourseDetails = () => {
 
   const location = useLocation();
   const courseId = location.pathname.split("/").pop();
+  const [created,setCreated] = useState(false)
 
   // 🔹 Fetch course details
   useEffect(() => {
@@ -160,7 +161,7 @@ const CourseDetails = () => {
             {isSubmitted ? "Assignment Submitted ✅" : "Not Submitted ❌"}
           </p>
 
-          {assignment.submissionType === "Group" && !loading && (
+          {assignment.submissionType === "Group" && !loading && !created (
             <>
               {!groupStatus?.alreadyInGroup ? (
                 <button
@@ -231,6 +232,7 @@ const CourseDetails = () => {
         <CreateGroupModal
           assignmentId={assignment._id}
           onClose={() => setShowModal(false)}
+          setCreated
         />
       )}
     </div>

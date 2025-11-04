@@ -12,6 +12,7 @@ const StudentDashboard = () => {
   const navigate = useNavigate();
   const BASE_URL = process.env.REACT_APP_BASE_URL
 
+
   useEffect(() => {
     const fetchAllCourses = async () => {
       try {
@@ -40,7 +41,19 @@ const StudentDashboard = () => {
 
       await axios.post(`${BASE_URL}/course/enrollStudent`, { courseId, studentId });
       toast.success("Enrolled successfully!");
-      navigate(0);
+      setCourses((prevCourses) =>
+        prevCourses.map((course) =>
+          course._id === courseId
+            ? {
+              ...course,
+              studentsEnrolled: [
+                ...(course.studentsEnrolled || []),
+                { _id: studentId }, // mimic backend update
+              ],
+            }
+            : course
+        )
+      );
     } catch (err) {
       alert(err.response?.data?.message || "Error enrolling");
     }
@@ -61,13 +74,13 @@ const StudentDashboard = () => {
               }}
                 className="px-4 py-2 bg-richblue-400 text-white rounded-md"
               >
-              View Details
-            </button>) : (<button
-              onClick={() => handleEnroll(course._id)}
-              className="px-4 py-2 bg-caribbeangreen-100 text-white rounded-md"
-            >
-              Enroll Now
-            </button>)
+                View Details
+              </button>) : (<button
+                onClick={() => handleEnroll(course._id)}
+                className="px-4 py-2 bg-caribbeangreen-100 text-white rounded-md"
+              >
+                Enroll Now
+              </button>)
             }
 
           </div>
