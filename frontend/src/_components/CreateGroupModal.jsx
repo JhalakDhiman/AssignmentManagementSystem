@@ -1,10 +1,10 @@
-import  { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { X } from "lucide-react"; 
+import { X } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 
-const CreateGroupModal = ({ assignmentId, onClose,setCreated }) => {
+const CreateGroupModal = ({ assignmentId, onClose, setGroupStatus }) => {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL
   const [groupName, setGroupName] = useState("");
@@ -12,7 +12,7 @@ const CreateGroupModal = ({ assignmentId, onClose,setCreated }) => {
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [leader, setLeader] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user,token } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchEligibleStudents = async () => {
@@ -26,7 +26,7 @@ const CreateGroupModal = ({ assignmentId, onClose,setCreated }) => {
           (student) => student._id !== user?._id
         );
 
-        if(filteredStudents.length===0){
+        if (filteredStudents.length === 0) {
           toast.error("sorry, no student is available");
           return;
         }
@@ -85,7 +85,11 @@ const CreateGroupModal = ({ assignmentId, onClose,setCreated }) => {
       console.log("Group creation response:", res.data);
 
       toast.success("Group created successfully!");
-      setCreated(true)
+      setGroupStatus({
+        success: true,
+        alreadyInGroup: true,
+        group: res.data.group, 
+      });
       onClose();
     } catch (err) {
       console.error(err);

@@ -9,6 +9,8 @@ export const createGroup = async (req, res) => {
     const { groupName, memberIds, assignmentId } = req.body;
     const creatorId = req.user.id;
 
+    console.log("Creating group with data");
+
     if (!groupName || !memberIds || !assignmentId) {
       return res.status(400).json({ message: "Missing required fields" });
     }
@@ -17,13 +19,15 @@ export const createGroup = async (req, res) => {
     if (!assignment) {
       return res.status(404).json({ message: "Assignment not found" });
     }
-
     if (assignment.submissionType !== "Group") {
-      return res.status(400).json({ message: "This assignment is for individual submission only" });
+      return res
+        .status(400)
+        .json({ message: "This assignment is for individual submission only" });
     }
 
     const course = await Course.findById(assignment.course);
-    if (!course) return res.status(404).json({ message: "Course not found" });
+    if (!course)
+      return res.status(404).json({ message: "Course not found" });
 
     const notEnrolled = memberIds.filter(
       (id) => !course.studentsEnrolled.map((s) => s.toString()).includes(id)
@@ -39,9 +43,10 @@ export const createGroup = async (req, res) => {
       students: { $in: memberIds },
       assignmentId: assignmentId,
     });
-
     if (existingGroups.length > 0) {
-      return res.status(400).json({ message: "One or more members already belong to another group for this assignment" });
+      return res.status(400).json({
+        message: "One or more members already belong to another group for this assignment",
+      });
     }
 
     if (!memberIds.includes(creatorId.toString())) {
@@ -55,18 +60,27 @@ export const createGroup = async (req, res) => {
       students: memberIds,
       groupLeader,
       assignmentSubmittedStatus: false,
-      assignmentId, 
+      assignmentId,
     });
 
+    const populatedGroup = await Group.findById(newGroup._id)
+      .populate("students", "firstName lastName email image")
+      .populate("groupLeader", "firstName lastName email image");
+
+    console.log("New group created:", populatedGroup);
+
     return res.status(201).json({
+      success: true,
       message: "Group created successfully",
-      group: newGroup,
+      group: populatedGroup,
     });
+
   } catch (err) {
-    console.error(err);
+    console.error("Error creating group:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 export const getEligibleStudentsForGroup = async (req, res) => {
   try {
