@@ -98,7 +98,7 @@ export default function ProfessorDashboard() {
     try {
       const payload = { ...data, token, courseId: selectedCourseId };
       const res = await axios.post(
-        "${BASE_URL}/assignment/addAssignment",
+        `${BASE_URL}/assignment/addAssignment`,
         payload
       );
       console.log(res);
