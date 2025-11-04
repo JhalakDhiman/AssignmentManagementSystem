@@ -40,7 +40,7 @@ const StudentDashboard = () => {
 
       await axios.post(`${BASE_URL}/course/enrollStudent`, { courseId, studentId });
       toast.success("Enrolled successfully!");
-      window.location.reload();
+      navigate(0);
     } catch (err) {
       alert(err.response?.data?.message || "Error enrolling");
     }
