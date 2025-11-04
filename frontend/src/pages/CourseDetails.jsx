@@ -161,7 +161,7 @@ const CourseDetails = () => {
             {isSubmitted ? "Assignment Submitted ✅" : "Not Submitted ❌"}
           </p>
 
-          {assignment.submissionType === "Group" && !loading && !created (
+          {assignment.submissionType === "Group" && !loading && !created && (
             <>
               {!groupStatus?.alreadyInGroup ? (
                 <button
